@@ -1,0 +1,9 @@
+{
+  "name": "koalamon/notificationbundle",
+  "description": "implements notifications for koalamon",
+  "autoload": {
+    "psr-4": {
+      "Koalamon\\NotificationBundle\\": "src/"
+    }
+  }
+}
