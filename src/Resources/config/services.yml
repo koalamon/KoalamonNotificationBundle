@@ -1,4 +1,6 @@
 services:
-#    Koalamon_notification_engine.example:
-#        class: Koalamon\NotificationBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+  koalamonnotification.eventlistener:
+    class: Koalamon\NotificationBundle\EventListener\EventListener
+    arguments: [ @service_container ]
+    tags:
+      - { name: koalamon.event_listener, event: koalamon.notification.event.create, method: onEventCreate }
