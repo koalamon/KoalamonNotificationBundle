@@ -21,12 +21,18 @@ class EventListener
     {
         $koalamonEvent = $event->getEvent();
 
-        if ($this->isNotifiable($koalamonEvent, $event->getLastEvent())) {
-            $this->notify($koalamonEvent);
+        if ($event->hasLastEvent()) {
+            if ($this->isNotifiable($koalamonEvent, $event->getLastEvent())) {
+                $this->notify($koalamonEvent);
+            }
+        } else {
+            if ($this->isNotifiable($koalamonEvent)) {
+                $this->notify($koalamonEvent);
+            }
         }
     }
 
-    private function isNotifiable(Event $event, Event $lastEvent)
+    private function isNotifiable(Event $event, Event $lastEvent = null)
     {
         return ((!$lastEvent && $event->getStatus() == Event::STATUS_FAILURE) ||
             ($lastEvent && ($lastEvent->getStatus() != $event->getStatus())));
