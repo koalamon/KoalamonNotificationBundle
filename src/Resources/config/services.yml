@@ -1,6 +1,14 @@
 services:
-  koalamonnotification.eventlistener:
-    class: Koalamon\NotificationBundle\EventListener\EventListener
-    arguments: [ @service_container ]
-    tags:
-      - { name: koalamon.event_listener, event: koalamon.notification.event.create, method: onEventCreate }
+
+    koalamonnotification.eventCreationListener:
+        class: Koalamon\NotificationBundle\EventListener\EventListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: 'kernel.event_listener', event: 'koalamon.event.create', method: onEventCreate }
+
+
+    koalamonnotification.adminMenu:
+        class: Koalamon\NotificationBundle\EventListener\AdminMenuListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: 'kernel.event_listener', event: 'koalamon.admin.menu', method: onAdminMenu }

@@ -3,50 +3,30 @@
 namespace Koalamon\NotificationBundle\EventListener;
 
 use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
+use Koalamon\DefaultBundle\Menu\Element;
+use Koalamon\DefaultBundle\Menu\Menu;
 use Koalamon\NotificationBundle\Sender\SenderFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class EventListener
+class AdminMenuListener
 {
-    private $doctrineManager;
     private $router;
 
     public function __construct(ContainerInterface $container)
     {
-        $this->doctrineManager = $container->get('doctrine')->getManager();
         $this->router = $container->get('Router');
     }
 
-    public function onEventCreate(\Symfony\Component\EventDispatcher\Event $event)
+    public function onAdminMenu(\Symfony\Component\EventDispatcher\Event $event)
     {
-        $koalamonEvent = $event->getEvent();
+        $menu = $event->getMenu();
+        $project = $event->getProject();
+        /** @var Menu $menu */
 
-        if ($this->isNotifiable($koalamonEvent, $event->getLastEvent())) {
-            $this->notify($koalamonEvent);
-        }
+        $menu->addElement(new Element($this->router->generate('koalamon_notification_home', ['project' => $project->getIdentifier()]),
+            'Notification Channels', 'menu_admin_notification_channels'));
+
+        $menu->addElement(new Element($this->router->generate('koalamon_notification_alerts_home', ['project' => $project->getIdentifier()]),
+            'Alerts', 'menu_admin_alerts'));
     }
-
-    private function isNotifiable(Event $event, Event $lastEvent)
-    {
-        return ((!$lastEvent && $event->getStatus() == Event::STATUS_FAILURE) ||
-            ($lastEvent && ($lastEvent->getStatus() != $event->getStatus())));
-    }
-
-    private function notify(Event $event)
-    {
-        $configs = $this->doctrineManager->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
-            ->findBy(['project' => $event->getEventIdentifier()->getProject()]);
-
-        /** @var NotificationConfiguration[] $configs */
-
-        foreach ($configs as $config) {
-            if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
-                $sender = SenderFactory::getSender($config->getSenderType());
-                $sender->init($this->router, $config->getOptions());
-
-                $sender->send($event);
-            }
-        }
-    }
-
 }
