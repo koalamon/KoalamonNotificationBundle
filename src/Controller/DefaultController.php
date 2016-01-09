@@ -4,10 +4,10 @@ namespace Koalamon\NotificationBundle\Controller;
 
 use Bauer\IncidentDashboard\CoreBundle\Controller\ProjectAwareController;
 use Bauer\IncidentDashboard\CoreBundle\Entity\UserRole;
-use Koalamon\NotificationBundle\Sender\EMailSender;
+use Koalamon\NotificationBundle\Sender\EMail\EMailSender;
+use Koalamon\NotificationBundle\Sender\Slack\SlackSender;
 use Symfony\Component\HttpFoundation\Request;
 use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
-use Koalamon\NotificationBundle\Sender\SlackSender;
 
 class DefaultController extends ProjectAwareController
 {

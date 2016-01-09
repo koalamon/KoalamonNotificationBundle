@@ -1,8 +1,11 @@
 <?php
 
-namespace Koalamon\NotificationBundle\Sender;
+namespace Koalamon\NotificationBundle\Sender\EMail;
 
 use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
+use Koalamon\NotificationBundle\Sender\Option;
+use Koalamon\NotificationBundle\Sender\Sender;
+use Koalamon\NotificationBundle\Sender\VariableContainer;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -44,16 +47,16 @@ class EMailSender implements Sender, ContainerAwareInterface
      * @param Router $router
      * @param array $initOptions
      */
-    public function init(Router $router, array $initOptions, VariableContainer $container)
+    public function init(Router $router, array $initOptions, VariableContainer $variableContainer)
     {
         if (array_key_exists('emailaddresses', $initOptions)) {
-            $this->emailAddresses = $initOptions["emailaddresses"];
+            $this->emailAddresses = explode(',', $initOptions["emailaddresses"]);
         } else {
             throw new \RuntimeException('No email addresses given.');
         }
 
         $this->router = $router;
-        $this->varContainer = $container;
+        $this->varContainer = $variableContainer;
 
         if (array_key_exists('subject', $initOptions)) {
             $this->subject = $initOptions["subject"];
@@ -71,9 +74,17 @@ class EMailSender implements Sender, ContainerAwareInterface
     {
         $subject = $this->varContainer->replace($this->subject);
 
-        $mailer = new Mailer
+        $body = $this->container->get('templating')->render('KoalamonNotificationBundle:Sender:Email/email.html.twig',
+            $this->varContainer->getVariables());
 
-        var_dump($subject);
-        die;
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom('send@example.com')
+            ->setTo($this->emailAddresses)
+            ->setBody(
+                $body,
+                'text/html');
+
+        $this->container->get('mailer')->send($message);
     }
 }

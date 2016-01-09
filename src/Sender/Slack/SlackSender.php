@@ -1,8 +1,11 @@
 <?php
 
-namespace Koalamon\NotificationBundle\Sender;
+namespace Koalamon\NotificationBundle\Sender\Slack;
 
 use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
+use Koalamon\NotificationBundle\Sender\Option;
+use Koalamon\NotificationBundle\Sender\Sender;
+use Koalamon\NotificationBundle\Sender\VariableContainer;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class SlackSender implements Sender
@@ -32,7 +35,7 @@ class SlackSender implements Sender
      * @param Router $router
      * @param array $initOptions
      */
-    public function init(Router $router, array $initOptions, VariableContainer $container)
+    public function init(Router $router, array $initOptions, VariableContainer $variableContainer)
     {
         if (array_key_exists('webhookUrl', $initOptions)) {
             $this->webhookURL = $initOptions["webhookUrl"];

@@ -1,13 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nils.langner
- * Date: 30.12.15
- * Time: 13:56
- */
 
 namespace Koalamon\NotificationBundle\Sender;
 
+use Koalamon\NotificationBundle\Sender\EMail\EMailSender;
+use Koalamon\NotificationBundle\Sender\Slack\SlackSender;
 
 class SenderFactory
 {

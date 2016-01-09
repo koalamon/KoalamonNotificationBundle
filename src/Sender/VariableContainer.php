@@ -18,4 +18,9 @@ class VariableContainer
         }
         return $text;
     }
+
+    public function getVariables()
+    {
+        return $this->variables;
+    }
 }

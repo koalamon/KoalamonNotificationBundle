@@ -5,17 +5,20 @@ namespace Koalamon\NotificationBundle\EventListener;
 use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
 use Koalamon\NotificationBundle\Sender\SenderFactory;
 use Koalamon\NotificationBundle\Sender\VariableContainer;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EventListener
 {
     private $doctrineManager;
     private $router;
+    private $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->doctrineManager = $container->get('doctrine')->getManager();
         $this->router = $container->get('Router');
+        $this->container = $container;
     }
 
     public function onEventCreate(\Symfony\Component\EventDispatcher\Event $event)
@@ -52,6 +55,11 @@ class EventListener
         foreach ($configs as $config) {
             if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
                 $sender = SenderFactory::getSender($config->getSenderType());
+
+                if ($sender instanceof ContainerAwareInterface) {
+                    $sender->setContainer($this->container);
+                }
+
                 $sender->init($this->router, $config->getOptions(), $container);
 
                 $sender->send($event);
