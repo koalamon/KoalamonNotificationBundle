@@ -32,7 +32,7 @@ class SlackSender implements Sender
      * @param Router $router
      * @param array $initOptions
      */
-    public function init(Router $router, array $initOptions)
+    public function init(Router $router, array $initOptions, VariableContainer $container)
     {
         if (array_key_exists('webhookUrl', $initOptions)) {
             $this->webhookURL = $initOptions["webhookUrl"];
@@ -78,11 +78,11 @@ class SlackSender implements Sender
 
         if ($event->getStatus() == Event::STATUS_SUCCESS) {
             $color = self::COLOR_SUCCESS;
-            $label = "Your test succeeded (" . $event->getSystem() . ")\nIdentifier: " . $event->getEventIdentifier()->getIdentifier() . ")";
+            $label = "Your test succeeded (" . $event->getSystem() . ")\nIdentifier: " . $event->getEventIdentifier()->getIdentifier();
             $message = "";
         } else {
             $color = self::COLOR_FAILURE;
-            $label = "Your test failed (" . $event->getSystem() . ") \nIdentifier: " . $event->getEventIdentifier()->getIdentifier() . "";
+            $label = "Your test failed (" . $event->getSystem() . ") \nIdentifier: " . $event->getEventIdentifier()->getIdentifier();
             $message = $this->slackifyText($event->getMessage()) . "\n";
         }
 

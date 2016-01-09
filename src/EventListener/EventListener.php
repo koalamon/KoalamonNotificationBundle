@@ -4,6 +4,7 @@ namespace Koalamon\NotificationBundle\EventListener;
 
 use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
 use Koalamon\NotificationBundle\Sender\SenderFactory;
+use Koalamon\NotificationBundle\Sender\VariableContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EventListener
@@ -45,10 +46,13 @@ class EventListener
 
         /** @var NotificationConfiguration[] $configs */
 
+        $container = new VariableContainer();
+        $container->addVariable('event.status', $event->getStatus());
+
         foreach ($configs as $config) {
             if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
                 $sender = SenderFactory::getSender($config->getSenderType());
-                $sender->init($this->router, $config->getOptions());
+                $sender->init($this->router, $config->getOptions(), $container);
 
                 $sender->send($event);
             }

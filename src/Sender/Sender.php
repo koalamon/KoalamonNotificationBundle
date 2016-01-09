@@ -15,5 +15,5 @@ interface Sender
 
     public function send(Event $event);
 
-    public function init(Router $router, array $initOptions);
+    public function init(Router $router, array $initOptions, VariableContainer $container);
 }

@@ -15,6 +15,7 @@ class SenderFactory
     {
         return [
             'slack' => new SlackSender(),
+            'email' => new EMailSender()
         ];
     }
 
