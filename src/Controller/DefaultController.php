@@ -26,7 +26,7 @@ class DefaultController extends ProjectAwareController
         $senders = $this->getSenders();
 
         $configs = $this->getDoctrine()->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
-            ->findBy(array('project' => $this->getProject()));
+            ->findBy(array('project' => $this->getProject()), ['name' => 'DESC']);
 
         return $this->render('KoalamonNotificationBundle:Default:index.html.twig', array('senders' => $senders, 'configs' => $configs));
     }
@@ -73,7 +73,8 @@ class DefaultController extends ProjectAwareController
         $em = $this->getDoctrine()->getManager();
 
         if ($request->get('configurationId') > 0) {
-            $configuration = $this->getDoctrine()->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
+            $configuration = $this->getDoctrine()
+                ->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
                 ->find($request->get('configurationId'));
         } else {
             $configuration = new NotificationConfiguration();

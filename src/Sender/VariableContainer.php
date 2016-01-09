@@ -23,4 +23,13 @@ class VariableContainer
     {
         return $this->variables;
     }
+
+    public function getTemplateVariables()
+    {
+        $vars = array();
+        foreach ($this->variables as $key => $var) {
+            $vars[str_replace('.', '_', $key)] = $vars;
+        }
+        return $vars;
+    }
 }

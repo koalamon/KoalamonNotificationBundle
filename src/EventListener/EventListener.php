@@ -42,7 +42,7 @@ class EventListener
             ($lastEvent && ($lastEvent->getStatus() != $event->getStatus())));
     }
 
-    private function notify(Event $event)
+    private function notify(Event $event, Event $lastEvent = null)
     {
         $configs = $this->doctrineManager->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
             ->findBy(['project' => $event->getEventIdentifier()->getProject()]);
@@ -51,6 +51,16 @@ class EventListener
 
         $container = new VariableContainer();
         $container->addVariable('event.status', $event->getStatus());
+        $container->addVariable('event.message', $event->getMessage());
+
+        if ($lastEvent) {
+            $container->addVariable('lastevent.message', $lastEvent->getMessage());
+            $container->addVariable('lastevent.status', $lastEvent->getStatus());
+        }
+
+        $container->addVariable('system.name', $event->getSystem());
+
+        $container->addVariable('tool.name', $event->getEventIdentifier()->getTool()->getName());
 
         foreach ($configs as $config) {
             if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
@@ -61,7 +71,6 @@ class EventListener
                 }
 
                 $sender->init($this->router, $config->getOptions(), $container);
-
                 $sender->send($event);
             }
         }

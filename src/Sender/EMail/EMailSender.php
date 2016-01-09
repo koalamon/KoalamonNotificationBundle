@@ -66,7 +66,7 @@ class EMailSender implements Sender, ContainerAwareInterface
     }
 
     /**
-     * Sends a message to slack created by information given in the event.
+     * Sends a message via email created by information given in the event.
      *
      * @param Event $event
      */
@@ -74,12 +74,15 @@ class EMailSender implements Sender, ContainerAwareInterface
     {
         $subject = $this->varContainer->replace($this->subject);
 
-        $body = $this->container->get('templating')->render('KoalamonNotificationBundle:Sender:Email/email.html.twig',
-            $this->varContainer->getVariables());
+        $body = $this
+            ->container
+            ->get('templating')
+            ->render('KoalamonNotificationBundle:Sender:EMail/email_' . $event->getStatus() . '.html.twig',
+                $this->varContainer->getTemplateVariables());
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom('send@example.com')
+            ->setFrom(['alert@koalamon.com' => 'KoalaAlert'])
             ->setTo($this->emailAddresses)
             ->setBody(
                 $body,

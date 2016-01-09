@@ -1,3 +1,4 @@
+# notification channels
 koalamon_notification_home:
     path:     /p/{project}/notifications/
     defaults: { _controller: KoalamonNotificationBundle:Default:index }
@@ -11,7 +12,7 @@ koalamon_notification_delete:
     defaults: { _controller: KoalamonNotificationBundle:Default:delete }
 
 koalamon_notification_edit:
-    path:     /p/{project}/notifications/edir/{notificationConfiguration}/
+    path:     /p/{project}/notifications/edit/{notificationConfiguration}/
     defaults: { _controller: KoalamonNotificationBundle:Default:edit }
 
 koalamon_notification_store:
