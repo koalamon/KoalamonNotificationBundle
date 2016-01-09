@@ -28,7 +28,7 @@ class VariableContainer
     {
         $vars = array();
         foreach ($this->variables as $key => $var) {
-            $vars[str_replace('.', '_', $key)] = $vars;
+            $vars[str_replace('.', '_', $key)] = $var;
         }
         return $vars;
     }
