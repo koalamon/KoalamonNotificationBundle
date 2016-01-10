@@ -1,7 +1,9 @@
 <h1>System Recovered</h1>
 
 <ul>
-    <li>Message: {{ lastevent_message }}</li>
+    {% if lastevent_message is defined %}
+        <li>Message: {{ lastevent_message }}</li>
+    {% endif %}
     <li>System: {{ system_name }}</li>
     <li>Tool: {{ tool_name }}</li>
 
