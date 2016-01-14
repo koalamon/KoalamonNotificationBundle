@@ -23,10 +23,10 @@ class AdminMenuListener
         $project = $event->getProject();
         /** @var Menu $menu */
 
-        $menu->addElement(new Element($this->router->generate('koalamon_notification_home', ['project' => $project->getIdentifier()]),
+        $menu->addElement(new Element($this->router->generate('koalamon_notification_home', ['project' => $project->getIdentifier()], true),
             'Notification Channels', 'menu_admin_notification_channels'));
 
-        $menu->addElement(new Element($this->router->generate('koalamon_notification_alerts_home', ['project' => $project->getIdentifier()]),
+        $menu->addElement(new Element($this->router->generate('koalamon_notification_alerts_home', ['project' => $project->getIdentifier()], true),
             'Alerts', 'menu_admin_alerts'));
     }
 }
