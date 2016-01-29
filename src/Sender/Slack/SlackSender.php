@@ -73,7 +73,7 @@ class SlackSender implements Sender
     {
         $client = new \Maknz\Slack\Client($this->webhookURL, $this->settings);
 
-        $gotoUrl = "<" . $this->router->generate("bauer_incident_dashboard_core_homepage", array('project' => $event->getEventIdentifier()->getProject()->getIdentifier()), true) . "|Go to www.Koalamon.com>";
+        $gotoUrl = "<" . $this->router->generate("bauer_incident_dashboard_core_homepage", array('project' => $event->getEventIdentifier()->getProject()->getIdentifier()), true) . "|Go to Koalamon>";
 
         if ($event->hasUrl()) {
             $gotoUrl .= "\n<" . $event->getUrl() . "|Go to " . $event->getEventIdentifier()->getTool()->getName() . ">";
