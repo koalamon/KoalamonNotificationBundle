@@ -2,8 +2,8 @@
 
 namespace Koalamon\NotificationBundle\Entity;
 
-use Bauer\IncidentDashboard\CoreBundle\Entity\Project;
-use Bauer\IncidentDashboard\CoreBundle\Entity\Tool;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool;
 use Doctrine\ORM\EntityRepository;
 
 class NotificationConfigurationRepository extends EntityRepository
