@@ -2,7 +2,7 @@
 
 namespace Koalamon\NotificationBundle\Sender\Slack;
 
-use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
 use Koalamon\NotificationBundle\Sender\Option;
 use Koalamon\NotificationBundle\Sender\Sender;
 use Koalamon\NotificationBundle\Sender\VariableContainer;

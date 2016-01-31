@@ -2,7 +2,7 @@
 
 namespace Koalamon\NotificationBundle\EventListener;
 
-use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
 use Koalamon\NotificationBundle\Sender\SenderFactory;
 use Koalamon\NotificationBundle\Sender\VariableContainer;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;

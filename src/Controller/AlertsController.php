@@ -2,9 +2,9 @@
 
 namespace Koalamon\NotificationBundle\Controller;
 
-use Bauer\IncidentDashboard\CoreBundle\Controller\ProjectAwareController;
-use Bauer\IncidentDashboard\CoreBundle\Entity\Tool;
-use Bauer\IncidentDashboard\CoreBundle\Entity\UserRole;
+use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
 use Symfony\Component\HttpFoundation\Request;
 use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
 

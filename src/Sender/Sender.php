@@ -2,7 +2,7 @@
 
 namespace Koalamon\NotificationBundle\Sender;
 
-use Bauer\IncidentDashboard\CoreBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 
