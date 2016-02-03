@@ -2,9 +2,8 @@
 
 namespace Koalamon\NotificationBundle\EventListener;
 
-use Bauer\IncidentDashboard\CoreBundle\Entity\Project;
-use Koalamon\DefaultBundle\EventListener\AdminMenuEvent;
-use Koalamon\DefaultBundle\Menu\Element;
+use Koalamon\Bundle\DefaultBundle\EventListener\AdminMenuEvent;
+use Koalamon\Bundle\DefaultBundle\Menu\Element;
 use Koalamon\IntegrationBundle\EventListener\PluginInitEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

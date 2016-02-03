@@ -2,8 +2,8 @@
 
 namespace Koalamon\NotificationBundle\Entity;
 
-use Bauer\IncidentDashboard\CoreBundle\Entity\Project;
-use Bauer\IncidentDashboard\CoreBundle\Entity\Tool;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,7 +52,7 @@ class NotificationConfiguration
     private $notifyAll = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Bauer\IncidentDashboard\CoreBundle\Entity\Project", inversedBy="notificationConfigurations")
+     * @ORM\ManyToOne(targetEntity="Koalamon\Bundle\IncidentDashboardBundle\Entity\Project", inversedBy="notificationConfigurations")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      **/
     private $project;
@@ -60,7 +60,7 @@ class NotificationConfiguration
     /**
      * @var Tool[]
      *
-     * @ORM\ManyToMany(targetEntity="Bauer\IncidentDashboard\CoreBundle\Entity\Tool", inversedBy="notificationChannels")
+     * @ORM\ManyToMany(targetEntity="Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool", inversedBy="notificationChannels")
      * @ORM\JoinTable(name="notificationChannels_tools")
      */
     private $connectedTools;

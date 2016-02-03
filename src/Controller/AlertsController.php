@@ -2,9 +2,9 @@
 
 namespace Koalamon\NotificationBundle\Controller;
 
-use Bauer\IncidentDashboard\CoreBundle\Controller\ProjectAwareController;
-use Bauer\IncidentDashboard\CoreBundle\Entity\Tool;
-use Bauer\IncidentDashboard\CoreBundle\Entity\UserRole;
+use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
 use Symfony\Component\HttpFoundation\Request;
 use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
 
@@ -24,7 +24,7 @@ class AlertsController extends ProjectAwareController
     {
         $this->assertUserRights(UserRole::ROLE_ADMIN);
 
-        $tools = $this->getDoctrine()->getRepository('BauerIncidentDashboardCoreBundle:Tool')
+        $tools = $this->getDoctrine()->getRepository('KoalamonIncidentDashboardBundle:Tool')
             ->findBy(array('project' => $this->getProject(), 'active' => true), ["name" => "ASC"]);
 
         return $this->render('KoalamonNotificationBundle:Alerts:edit.html.twig', array('config' => $notificationConfiguration, 'tools' => $tools));
@@ -44,7 +44,7 @@ class AlertsController extends ProjectAwareController
             $tools = $request->get('tools');
             if (!is_null($tools)) {
                 foreach ($tools as $toolId => $value) {
-                    $tool = $this->getDoctrine()->getRepository('BauerIncidentDashboardCoreBundle:Tool')
+                    $tool = $this->getDoctrine()->getRepository('KoalamonIncidentDashboardBundle:Tool')
                         ->find((int)$toolId);
                     /** @var Tool $tool */
 
