@@ -9,6 +9,7 @@ class Option
     private $description;
     private $type;
     private $mandatory;
+    private $defaultValue = "";
 
     /**
      * Option constructor.
@@ -17,13 +18,14 @@ class Option
      * @param $identifier
      * @param $description
      */
-    public function __construct($label, $identifier, $description, $type, $mandatory = false)
+    public function __construct($label, $identifier, $description, $type, $mandatory = false, $defaultValue = null)
     {
         $this->label = $label;
         $this->identifier = $identifier;
         $this->description = $description;
         $this->type = $type;
         $this->mandatory = $mandatory;
+        $this->defaultValue = $defaultValue;
     }
 
     /**
@@ -61,5 +63,10 @@ class Option
     public function isMandatory()
     {
         return $this->mandatory;
+    }
+
+    public function getDefaultValue()
+    {
+        return $this->defaultValue;
     }
 }

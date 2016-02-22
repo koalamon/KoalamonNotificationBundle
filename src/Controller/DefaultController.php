@@ -6,6 +6,7 @@ use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
 use Koalamon\NotificationBundle\Sender\EMail\EMailSender;
 use Koalamon\NotificationBundle\Sender\Slack\SlackSender;
+use Koalamon\NotificationBundle\Sender\Webhook\WebhookSender;
 use Symfony\Component\HttpFoundation\Request;
 use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
 
@@ -16,6 +17,7 @@ class DefaultController extends ProjectAwareController
         return [
             'slack' => ['name' => 'Slack', 'description' => '', 'sender' => new SlackSender()],
             'email' => ['name' => 'E-Mail', 'description' => '', 'sender' => new EMailSender()],
+            'webhook' => ['name' => 'Webhook', 'descritpion' => '', 'sender' => new WebhookSender()],
         ];
     }
 
@@ -26,7 +28,7 @@ class DefaultController extends ProjectAwareController
         $senders = $this->getSenders();
 
         $configs = $this->getDoctrine()->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
-            ->findBy(array('project' => $this->getProject()), ['name' => 'DESC']);
+            ->findBy(array('project' => $this->getProject()), ['name' => 'ASC']);
 
         return $this->render('KoalamonNotificationBundle:Default:index.html.twig', array('senders' => $senders, 'configs' => $configs));
     }

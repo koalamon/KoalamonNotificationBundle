@@ -52,6 +52,7 @@ class EventListener
         $container = new VariableContainer();
         $container->addVariable('event.status', $event->getStatus());
         $container->addVariable('event.message', $event->getMessage());
+        $container->addVariable('event.url', $this->router->generate("bauer_incident_dashboard_core_homepage", array('project' => $event->getEventIdentifier()->getProject()->getIdentifier()), true));
 
         if ($lastEvent) {
             $container->addVariable('lastevent.message', $lastEvent->getMessage());
