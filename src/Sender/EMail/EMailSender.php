@@ -31,8 +31,8 @@ class EMailSender implements Sender, ContainerAwareInterface
     public function getOptions()
     {
         return [
-            new Option('E-Mail Addresses *', 'emailaddresses', 'List of comma seperated e-mail addresses.', 'text'),
-            new Option('Subject', 'subject', 'The email subject', 'text', false),
+            new Option('E-Mail Addresses *', 'emailaddresses', 'List of comma seperated e-mail addresses.', 'string'),
+            new Option('Subject', 'subject', 'The email subject', 'string', false),
         ];
     }
 

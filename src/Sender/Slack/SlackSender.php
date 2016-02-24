@@ -23,8 +23,8 @@ class SlackSender implements Sender
     public function getOptions()
     {
         return [
-            new Option('WebhookURL *', 'webhookUrl', 'Slack webbhook url', 'text', true),
-            new Option('Username', 'username', 'The Username Koalamon posts from', 'text'),
+            new Option('WebhookURL *', 'webhookUrl', 'Slack webbhook url', 'string', true),
+            new Option('Username', 'username', 'The Username Koalamon posts from', 'string'),
             new Option('Icon', 'icon', 'The user icon', 'text')
         ];
     }

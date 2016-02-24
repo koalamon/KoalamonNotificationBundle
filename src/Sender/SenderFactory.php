@@ -4,6 +4,7 @@ namespace Koalamon\NotificationBundle\Sender;
 
 use Koalamon\NotificationBundle\Sender\EMail\EMailSender;
 use Koalamon\NotificationBundle\Sender\Slack\SlackSender;
+use Koalamon\NotificationBundle\Sender\Webhook\WebhookSender;
 
 class SenderFactory
 {
@@ -11,7 +12,8 @@ class SenderFactory
     {
         return [
             'slack' => new SlackSender(),
-            'email' => new EMailSender()
+            'email' => new EMailSender(),
+            'webhook' => new WebhookSender()
         ];
     }
 

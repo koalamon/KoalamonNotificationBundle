@@ -1,5 +1,4 @@
-{% extends 'KoalamonDefaultBundle:Default:master/admin.html.twig' %}
-
+{% extends '@KoalamonDefault/Default/master/admin.html.twig' %}
 {% block admin %}
     <style>
         #form-sender-new {
@@ -13,6 +12,14 @@
         #form-sender-new .option .info {
             font-size: 12px;
         }
+
+        #form-sender-new .option textarea {
+            width: 620px;
+            border-color: #bbb;
+            height: 200px;
+            resize: none;
+        }
+
     </style>
 
     <div class="box-element first">
@@ -37,10 +44,16 @@
                         {% endif %}
 
                         <div class="option">
-                            {% if option.type == 'text' %}
-                                <label for="options_{{ option.identifier }}">{{ option.label }}</label>
+                            {% if option.type == 'string' %}
+                                <label for="options_{{ option.identifier }}">{{ option.label }}{% if option.mandatory %} *{% endif %}</label>
                                 <input type="text" name="options[{{ option.identifier }}]" id="options_{{ option.identifier }}" value="{{ currentValue }}" {% if option.mandatory %}required{% endif %}>
                                 <div class="info">  {{ option.description }}</div>
+                            {% elseif option.type == 'text' %}
+                                <label for="options_{{ option.identifier }}">{{ option.label }}{% if option.mandatory %} *{% endif %}</label>
+                                <textarea name="options[{{ option.identifier }}]" id="options_{{ option.identifier }}">{{ currentValue }}</textarea>
+                                <div class="info">  {{ option.description }}</div>
+                            {% elseif option.type == 'info' %}
+                                <div style="width: 625px">{{ option.defaultValue }}</div>
                             {% endif %}
                         </div>
 
