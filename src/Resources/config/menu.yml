@@ -1,0 +1,18 @@
+menu:
+  koalamon_project_admin:
+    notification_main:
+      name: Notifications
+      route: koalamon_notification_home
+      projectAware: true
+
+    notification_sub_channels:
+      parent: notification_main
+      name: Channels
+      route: koalamon_notification_home
+      projectAware: true
+
+    notification_sub_alerts:
+      parent: notification_main
+      name: Alerts
+      route: koalamon_notification_alerts_home
+      projectAware: true
