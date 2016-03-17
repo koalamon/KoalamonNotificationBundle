@@ -38,7 +38,9 @@ class EventListener
 
     private function isNotifiable(Event $event, Event $lastEvent = null)
     {
-        return ((!$lastEvent && $event->getStatus() == Event::STATUS_FAILURE) ||
+        // knownIssue could be unnecessary
+        $ignoreNotification = $event->getEventIdentifier()->isKnownIssue() || $event->getEventIdentifier()->isIgnoredIssue();
+        return !$ignoreNotification && ((!$lastEvent && $event->getStatus() == Event::STATUS_FAILURE) ||
             ($lastEvent && ($lastEvent->getStatus() != $event->getStatus())));
     }
 
