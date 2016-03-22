@@ -3,6 +3,7 @@
 namespace Koalamon\NotificationBundle\EventListener;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
+use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
 use Koalamon\NotificationBundle\Sender\SenderFactory;
 use Koalamon\NotificationBundle\Sender\VariableContainer;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -47,8 +48,15 @@ class EventListener
         $configs = $this->doctrineManager->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
             ->findBy(['project' => $event->getEventIdentifier()->getProject()]);
 
-        /** @var NotificationConfiguration[] $configs */
+        foreach ($configs as $config) {
+            if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
+                $this->sendNotification($config, $event, $lastEvent);
+            }
+        }
+    }
 
+    public function sendNotification(NotificationConfiguration $config, Event $event, EventListener $lastEvent = null)
+    {
         $container = new VariableContainer();
         $container->addVariable('event.status', $event->getStatus());
         $container->addVariable('event.message', $event->getMessage());
@@ -60,21 +68,15 @@ class EventListener
         }
 
         $container->addVariable('system.name', $event->getSystem());
-
         $container->addVariable('tool.name', $event->getEventIdentifier()->getTool()->getName());
 
-        foreach ($configs as $config) {
-            if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
-                $sender = SenderFactory::getSender($config->getSenderType());
+        $sender = SenderFactory::getSender($config->getSenderType());
 
-                if ($sender instanceof ContainerAwareInterface) {
-                    $sender->setContainer($this->container);
-                }
-
-                $sender->init($this->router, $config->getOptions(), $container);
-                $sender->send($event);
-            }
+        if ($sender instanceof ContainerAwareInterface) {
+            $sender->setContainer($this->container);
         }
-    }
 
+        $sender->init($this->router, $config->getOptions(), $container);
+        $sender->send($event);
+    }
 }

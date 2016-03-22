@@ -17,7 +17,13 @@
                 <div style="width: 200px; float: left">{{ config.senderType }}</div>
                 <div>
                     <a href="{{ path('koalamon_notification_edit', {'project': project.identifier, 'notificationConfiguration': config.id}) }}">edit</a> |
-                    <a class="confirm"  data-message="Do you realy want to delete '{{ config.name }}'?" href="{{ path('koalamon_notification_delete', {'project': project.identifier, 'notificationConfiguration': config.id}) }}">delete</a></div>
+                    <a class="confirm" data-message="Do you realy want to delete '{{ config.name }}'?"
+                       href="{{ path('koalamon_notification_delete', {'project': project.identifier, 'notificationConfiguration': config.id}) }}">delete</a>
+                    <div class="confirm clickable" style="float: left" data-message="Do you realy want to send a test notification?"
+                         onclick="sendTestNotification({{ config.id }}); return false">
+                        send notification | &nbsp;
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
@@ -29,4 +35,24 @@
             <li><a href="{{ path('koalamon_notification_create', {'project': project.identifier, 'senderIdentifier': senderIndentifier}) }}"> {{ sender.name }}</a></li>
         {% endfor %}
     </ul>
+
+
+    <script>
+        function sendTestNotification(configId) {
+            url = Routing.generate('koalamon_notification_test_notification', {project: '{{ project.identifier }}', configuration: configId});
+            koalaPost(url);
+        }
+
+        function koalaPost(url, content) {
+            $.post(url, {
+                content
+            }).done(function (data) {
+                if (data['status'] == 'failure') {
+                    toastr.warning(data['message']);
+                } else {
+                    toastr.success(data['message']);
+                }
+            });
+        }
+    </script>
 {% endblock %}

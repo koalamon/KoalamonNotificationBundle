@@ -1,3 +1,11 @@
+# test notification
+koalamon_notification_test_notification:
+    path:     /p/{project}/notifications/sendtest/{configuration}/
+    defaults: { _controller: KoalamonNotificationBundle:Default:sendTestNotification }
+    options:
+        expose: true
+
+
 # notification channels
 koalamon_notification_home:
     path:     /p/{project}/notifications/

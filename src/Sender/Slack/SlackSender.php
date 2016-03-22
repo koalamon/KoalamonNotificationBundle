@@ -23,9 +23,9 @@ class SlackSender implements Sender
     public function getOptions()
     {
         return [
-            new Option('WebhookURL *', 'webhookUrl', 'Slack webbhook url', 'string', true),
+            new Option('WebhookURL', 'webhookUrl', 'Slack webbhook url', 'string', true),
             new Option('Username', 'username', 'The Username Koalamon posts from', 'string'),
-            new Option('Icon', 'icon', 'The user icon', 'text')
+            new Option('Icon', 'icon', 'The user icon', 'string')
         ];
     }
 
@@ -85,7 +85,7 @@ class SlackSender implements Sender
             $message = "";
         } else {
             $color = self::COLOR_FAILURE;
-            $label = "Your test failed (" . $event->getSystem() . ") \nIdentifier: " . $event->getEventIdentifier()->getIdentifier();
+            $label = "Your test failed (" . $event->getEventIdentifier()->getSystem()->getName() . ") \nIdentifier: " . $event->getEventIdentifier()->getIdentifier();
             $message = $this->slackifyText($event->getMessage()) . "\n";
         }
 

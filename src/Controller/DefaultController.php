@@ -3,10 +3,17 @@
 namespace Koalamon\NotificationBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\EventIdentifier;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\System;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
+use Koalamon\NotificationBundle\EventListener\EventListener;
 use Koalamon\NotificationBundle\Sender\EMail\EMailSender;
 use Koalamon\NotificationBundle\Sender\Slack\SlackSender;
 use Koalamon\NotificationBundle\Sender\Webhook\WebhookSender;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
 
@@ -92,5 +99,38 @@ class DefaultController extends ProjectAwareController
         $em->flush();
 
         return $this->redirectToRoute('koalamon_notification_home');
+    }
+
+    public function sendTestNotificationAction(NotificationConfiguration $configuration)
+    {
+        $this->assertUserRights(UserRole::ROLE_ADMIN);
+
+        $system = new System();
+        $system->setName('TEST_SYSTEM');
+        $system->setUrl('http://www.koalamon.com');
+        $system->setIdentifier('TEST_NOTIFICATION_SYSTEM_IDENTIFIER');
+
+        $tool = new Tool();
+        $tool->setName('TEST_NOTIFICATION');
+        $tool->setIdentifier('TEST_NOTIFICATION_TOOL_IDENTIFIER');
+
+        $eventIdentifier = new EventIdentifier();
+        $eventIdentifier->setProject($this->getProject());
+        $eventIdentifier->setTool($tool);
+        $eventIdentifier->setIdentifier('TEST_NOTIFICATION_EVENT_IDENTIFIER');
+
+        $eventIdentifier->setSystem($system);
+        $eventIdentifier->setCurrentState(Event::STATUS_FAILURE);
+
+        $event = new Event();
+        $event->setStatus(Event::STATUS_FAILURE);
+        $event->setMessage('This is a test notification send by ' . $this->getUser()->getUsername() . '.');
+        $event->setEventIdentifier($eventIdentifier);
+        $event->setType($tool->getIdentifier());
+
+        $notificationSender = new EventListener($this->container);
+        $notificationSender->sendNotification($configuration, $event);
+
+        return new JsonResponse(['status' => 'success', 'message' => 'Test notification was send.', 'configId' => $configuration->getId()]);
     }
 }

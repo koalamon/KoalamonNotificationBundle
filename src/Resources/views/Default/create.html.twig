@@ -26,11 +26,12 @@
         <div class="box-element-header">Create new Notification Channel</div>
         <div class="box-element-content">
             <div id="form-sender-new">
+                <div class=""></div>
                 <form method="post" action="{{ path('koalamon_notification_store', {'project': project.identifier}) }}">
                     <input type="hidden" name="configurationId" value="{{ config.id }}">
                     <input type="hidden" name="senderIdentifier" value="{{ config.senderType }}">
 
-                    <div class="option">
+                    <div>
                         <label for="name">Name *</label>
                         <input type="text" id="name" name="name" value="{{ config.name }}" required>
                     </div>
@@ -58,10 +59,8 @@
                         </div>
 
                     {% endfor %}
+                    <input type="submit" value="Store">
 
-                    <div class="option">
-                        <input type="submit" value="Store">
-                    </div>
                 </form>
             </div>
         </div>
