@@ -7,7 +7,7 @@
     <form method="post" action="{{ path('koalamon_notification_alerts_store', {'project': project.identifier, 'notificationConfiguration': config.id}) }}">
         <div>
             <input type="radio" value="true" {% if config.notifyAll %}checked="checked"{% endif %} name="notify_all">Notify all
-            <p style="margin-left: 30px">If "notify all" is selected the given Notification Channel will alert all failure events ne matter what tool.</p>
+            <p style="margin-left: 30px">If "notify all" is selected the given Notification Channel will alert all failure events no matter what tool.</p>
         </div>
         <div>
             <input type="radio" value="false" {% if not config.notifyAll %}checked="checked"{% endif %} name="notify_all">Notify selected Tools
