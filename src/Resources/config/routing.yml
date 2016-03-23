@@ -8,19 +8,19 @@ koalamon_notification_test_notification:
 
 # notification channels
 koalamon_notification_home:
-    path:     /p/{project}/notifications/
+    path:     /p/{project}/admin/notifications/
     defaults: { _controller: KoalamonNotificationBundle:Default:index }
 
 koalamon_notification_create:
-    path:     /p/{project}/notifications/create/{senderIdentifier}/
+    path:     /p/{project}/admin/notifications/create/{senderIdentifier}/
     defaults: { _controller: KoalamonNotificationBundle:Default:create }
 
 koalamon_notification_delete:
-    path:     /p/{project}/notifications/delete/{notificationConfiguration}/
+    path:     /p/{project}/admin/notifications/delete/{notificationConfiguration}/
     defaults: { _controller: KoalamonNotificationBundle:Default:delete }
 
 koalamon_notification_edit:
-    path:     /p/{project}/notifications/edit/{notificationConfiguration}/
+    path:     /p/{project}/admin/notifications/edit/{notificationConfiguration}/
     defaults: { _controller: KoalamonNotificationBundle:Default:edit }
 
 koalamon_notification_store:
@@ -30,13 +30,13 @@ koalamon_notification_store:
 
 # alerts
 koalamon_notification_alerts_home:
-    path:     /p/{project}/alerts/
+    path:     /p/{project}/admin/alerts/
     defaults: { _controller: KoalamonNotificationBundle:Alerts:index }
 
 koalamon_notification_alerts_edit:
-    path:     /p/{project}/edit/{notificationConfiguration}/
+    path:     /p/{project}/admin/edit/{notificationConfiguration}/
     defaults: { _controller: KoalamonNotificationBundle:Alerts:edit }
 
 koalamon_notification_alerts_store:
-    path:     /p/{project}/store/{notificationConfiguration}/
+    path:     /p/{project}/admin/store/{notificationConfiguration}/
     defaults: { _controller: KoalamonNotificationBundle:Alerts:store }
