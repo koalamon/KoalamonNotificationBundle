@@ -34,6 +34,8 @@ class AlertsController extends ProjectAwareController
     {
         $this->assertUserRights(UserRole::ROLE_ADMIN);
 
+        $notificationConfiguration->setNotificationCondition($request->get('condition'));
+
         if ($request->get('notify_all') === "true") {
             $notificationConfiguration->setNotifyAll(true);
             $notificationConfiguration->clearConnectedTools();

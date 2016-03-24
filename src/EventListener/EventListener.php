@@ -25,22 +25,21 @@ class EventListener
     public function onEventCreate(\Symfony\Component\EventDispatcher\Event $event)
     {
         $koalamonEvent = $event->getEvent();
+        /** @var Event $koalamonEvent */
 
-        if ($event->hasLastEvent()) {
-            if ($this->isNotifiable($koalamonEvent, $event->getLastEvent())) {
-                $this->notify($koalamonEvent);
-            }
-        } else {
-            if ($this->isNotifiable($koalamonEvent)) {
-                $this->notify($koalamonEvent);
-            }
-        }
+        $this->notify($koalamonEvent, $event->getLastEvent());
     }
 
-    private function isNotifiable(Event $event, Event $lastEvent = null)
+    private function isNotifiableEvent(NotificationConfiguration $config, Event $event, Event $lastEvent = null)
     {
-        return ((!$lastEvent && $event->getStatus() == Event::STATUS_FAILURE) ||
-            ($lastEvent && ($lastEvent->getStatus() != $event->getStatus())));
+        switch ($config->getNotificationCondition()) {
+
+            case NotificationConfiguration::NOTIFICATION_CONDITION_ALL:
+                return true;
+
+            default:
+                return (!$lastEvent && $event->getStatus() == Event::STATUS_FAILURE) || ($lastEvent && ($lastEvent->getStatus() != $event->getStatus()));
+        }
     }
 
     private function notify(Event $event, Event $lastEvent = null)
@@ -50,12 +49,14 @@ class EventListener
 
         foreach ($configs as $config) {
             if ($config->isNotifyAll() || $config->isConnectedTool($event->getEventIdentifier()->getTool())) {
-                $this->sendNotification($config, $event, $lastEvent);
+                if ($this->isNotifiableEvent($config, $event, $lastEvent)) {
+                    $this->sendNotification($config, $event, $lastEvent);
+                }
             }
         }
     }
 
-    public function sendNotification(NotificationConfiguration $config, Event $event, EventListener $lastEvent = null)
+    public function sendNotification(NotificationConfiguration $config, Event $event, Event $lastEvent = null)
     {
         $container = new VariableContainer();
         $container->addVariable('event.status', $event->getStatus());

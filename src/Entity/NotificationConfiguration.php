@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class NotificationConfiguration
 {
+    const NOTIFICATION_CONDITION_STATUS_CHANGE = 'status_change';
+    const NOTIFICATION_CONDITION_ALL = 'all';
+
     /**
      * @var integer
      *
@@ -50,6 +53,13 @@ class NotificationConfiguration
      * @ORM\Column(name="notifyAll", type="boolean")
      */
     private $notifyAll = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="notification_condition", type="string", length=50,  nullable=true)
+     */
+    private $notificationCondition;
 
     /**
      * @ORM\ManyToOne(targetEntity="Koalamon\Bundle\IncidentDashboardBundle\Entity\Project", inversedBy="notificationConfigurations")
@@ -166,6 +176,22 @@ class NotificationConfiguration
     public function isConnectedTool(Tool $tool)
     {
         return $this->connectedTools->contains($tool);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotificationCondition()
+    {
+        return $this->notificationCondition;
+    }
+
+    /**
+     * @param string $notificationCondition
+     */
+    public function setNotificationCondition($notificationCondition)
+    {
+        $this->notificationCondition = $notificationCondition;
     }
 }
 
