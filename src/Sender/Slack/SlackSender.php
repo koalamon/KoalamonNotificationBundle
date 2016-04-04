@@ -119,11 +119,12 @@ class SlackSender implements Sender
      * @param string $text
      * @return string
      */
-    private function slackifyText($text)
+    public static function slackifyText($text)
     {
         $message = str_replace("<b>", "", $text . "\n");
         $message = str_replace("</b>", "", $message);
         $message = str_replace("<br>", "\n", $message);
+        $message = str_replace("<br/>", "\n", $message);
         $message = str_replace("<strong>", "", $message);
         $message = str_replace("</strong>", "", $message);
         $message = str_replace("<ul>", "\n", $message);
