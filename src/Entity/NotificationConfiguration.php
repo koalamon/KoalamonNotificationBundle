@@ -62,6 +62,13 @@ class NotificationConfiguration
     private $notificationCondition;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="notifyAcknowledge", type="boolean")
+     */
+    private $notifyAcknowledge = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Koalamon\Bundle\IncidentDashboardBundle\Entity\Project", inversedBy="notificationConfigurations")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      **/
@@ -192,6 +199,22 @@ class NotificationConfiguration
     public function setNotificationCondition($notificationCondition)
     {
         $this->notificationCondition = $notificationCondition;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNotifyAcknowledge()
+    {
+        return $this->notifyAcknowledge;
+    }
+
+    /**
+     * @param boolean $notifyAcknowledge
+     */
+    public function setNotifyAcknowledge($notifyAcknowledge)
+    {
+        $this->notifyAcknowledge = $notifyAcknowledge;
     }
 }
 

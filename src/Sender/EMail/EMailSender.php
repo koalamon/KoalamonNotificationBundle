@@ -3,6 +3,7 @@
 namespace Koalamon\NotificationBundle\Sender\EMail;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Incident;
 use Koalamon\NotificationBundle\Sender\Option;
 use Koalamon\NotificationBundle\Sender\Sender;
 use Koalamon\NotificationBundle\Sender\VariableContainer;
@@ -90,4 +91,11 @@ class EMailSender implements Sender, ContainerAwareInterface
 
         $this->container->get('mailer')->send($message);
     }
+
+    public function sendAcknowledge(Incident $incident)
+    {
+        // TODO: Implement sendAcknowledge() method.
+    }
+
+
 }

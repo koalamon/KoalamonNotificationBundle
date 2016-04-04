@@ -3,6 +3,7 @@
 namespace Koalamon\NotificationBundle\Sender\Slack;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Incident;
 use Koalamon\NotificationBundle\Sender\Option;
 use Koalamon\NotificationBundle\Sender\Sender;
 use Koalamon\NotificationBundle\Sender\VariableContainer;
@@ -16,6 +17,7 @@ class SlackSender implements Sender
 
     const COLOR_SUCCESS = '#27ae60';
     const COLOR_FAILURE = '#f16059';
+    const COLOR_ACK = '#2980b9';
 
     /**
      * return Option[]
@@ -91,6 +93,23 @@ class SlackSender implements Sender
 
         $client->enableMarkdown()
             ->attach(['text' => $message . $gotoUrl, 'color' => $color])
+            ->send($label);
+    }
+
+    public function sendAcknowledge(Incident $incident)
+    {
+        $client = new \Maknz\Slack\Client($this->webhookURL, $this->settings);
+
+        $gotoUrl = "<" . $this->router->generate("bauer_incident_dashboard_core_homepage", array('project' => $incident->getEventIdentifier()->getProject()->getIdentifier()), true) . "|Go to Koalamon>";
+
+        $label = "The current incident for System "
+            . $incident->getEventIdentifier()->getSystem()->getName()
+            . ' (Tool: ' . $incident->getEventIdentifier()->getTool()->getName() . ")"
+            . ' was acknowledged by ' . $incident->getAcknowledgedBy()->getUsername()
+            . '.';
+
+        $client->enableMarkdown()
+            ->attach(['text' => $gotoUrl, 'color' => self::COLOR_ACK])
             ->send($label);
     }
 

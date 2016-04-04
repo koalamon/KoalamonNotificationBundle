@@ -2,6 +2,7 @@
 
 namespace Koalamon\NotificationBundle\EventListener;
 
+use Koalamon\Bundle\DefaultBundle\EventListener\IncidentEvent;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
 use Koalamon\NotificationBundle\Entity\NotificationConfiguration;
 use Koalamon\NotificationBundle\Sender\SenderFactory;
@@ -28,6 +29,32 @@ class EventListener
         /** @var Event $koalamonEvent */
 
         $this->notify($koalamonEvent, $event->getLastEvent());
+    }
+
+    public function onIncidentAcknowledge(IncidentEvent $incidentEvent)
+    {
+        $tool = $incidentEvent->getIncident()->getEventIdentifier()->getTool();
+        $ackUser = $incidentEvent->getIncident()->getAcknowledgedBy();
+
+        $configs = $this->doctrineManager->getRepository('KoalamonNotificationBundle:NotificationConfiguration')
+            ->findBy(['project' => $incidentEvent->getIncident()->getEventIdentifier()->getProject()]);
+
+        $container = new VariableContainer();
+        $container->addVariable('user', $ackUser);
+        $container->addVariable('incident', $incidentEvent->getIncident());
+
+        foreach ($configs as $config) {
+            if ($config->isNotifyAll() || $config->isConnectedTool($tool)) {
+                $sender = SenderFactory::getSender($config->getSenderType());
+
+                if ($sender instanceof ContainerAwareInterface) {
+                    $sender->setContainer($this->container);
+                }
+
+                $sender->init($this->router, $config->getOptions(), $container);
+                $sender->sendAcknowledge($incidentEvent->getIncident());
+            }
+        }
     }
 
     private function isNotifiableEvent(NotificationConfiguration $config, Event $event, Event $lastEvent = null)

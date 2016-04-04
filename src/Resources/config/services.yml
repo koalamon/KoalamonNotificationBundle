@@ -1,7 +1,8 @@
 services:
 
-    koalamonnotification.eventCreationListener:
+    koalamonnotification.eventListener:
         class: Koalamon\NotificationBundle\EventListener\EventListener
         arguments: [ @service_container ]
         tags:
             - { name: 'kernel.event_listener', event: 'koalamon.event.create', method: onEventCreate }
+            - { name: 'kernel.event_listener', event: 'koalamon.incident.acknowledge', method: onIncidentAcknowledge }

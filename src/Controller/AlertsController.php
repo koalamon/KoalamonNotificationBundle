@@ -36,6 +36,12 @@ class AlertsController extends ProjectAwareController
 
         $notificationConfiguration->setNotificationCondition($request->get('condition'));
 
+        if($request->get('notify_ack') === "true") {
+            $notificationConfiguration->setNotifyAcknowledge(true);
+        }else{
+            $notificationConfiguration->setNotifyAcknowledge(false);
+        }
+
         if ($request->get('notify_all') === "true") {
             $notificationConfiguration->setNotifyAll(true);
             $notificationConfiguration->clearConnectedTools();

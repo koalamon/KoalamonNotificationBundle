@@ -4,6 +4,7 @@ namespace Koalamon\NotificationBundle\Sender\Webhook;
 
 use GuzzleHttp\Client;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Incident;
 use Koalamon\NotificationBundle\Sender\Option;
 use Koalamon\NotificationBundle\Sender\Sender;
 use Koalamon\NotificationBundle\Sender\VariableContainer;
@@ -65,5 +66,10 @@ class WebhookSender implements Sender
 
         $httpClient = new Client();
         $httpClient->request('POST', $this->webhookURL, ['body' => json_encode($payload)]);
+    }
+
+    public function sendAcknowledge(Incident $incident)
+    {
+        // TODO: Implement sendAcknowledge() method.
     }
 }
