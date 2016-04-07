@@ -62,7 +62,8 @@ class WebhookSender implements Sender
             'message' => $event->getMessage(),
             'type' => $event->getEventIdentifier()->getTool()->getIdentifier(),
             'value' => $event->getValue(),
-            'url' => $event->getUrl()
+            'url' => $event->getUrl(),
+            'via' => $event->getEventIdentifier()->getProject()->getApiKey()
         ];
 
         $httpClient = new Client();
