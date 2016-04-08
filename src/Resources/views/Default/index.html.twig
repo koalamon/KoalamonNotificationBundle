@@ -17,9 +17,9 @@
                 <div style="width: 200px; float: left">{{ config.senderType }}</div>
                 <div>
                     <a href="{{ path('koalamon_notification_edit', {'project': project.identifier, 'notificationConfiguration': config.id}) }}">edit</a> |
-                    <a class="confirm" data-message="Do you realy want to delete '{{ config.name }}'?"
+                    <a class="confirm" data-message="Do you really want to delete '{{ config.name }}'?"
                        href="{{ path('koalamon_notification_delete', {'project': project.identifier, 'notificationConfiguration': config.id}) }}">delete</a>
-                    <div class="confirm clickable" style="float: left" data-message="Do you realy want to send a test notification?"
+                    <div class="confirm clickable" style="float: left" data-message="Do you really want to send a test notification?"
                          onclick="sendTestNotification({{ config.id }}); return false">
                         send notification | &nbsp;
                     </div>
